@@ -36,7 +36,6 @@ export const GlobalStyle = createGlobalStyle`
   
 
   body {
-    line-height: 1;
     word-break: keep-all;
     word-wrap: break-word;
     box-sizing: border-box;
