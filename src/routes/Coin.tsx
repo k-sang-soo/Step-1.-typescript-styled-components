@@ -1,4 +1,4 @@
-import {Link, Outlet, useLocation, useMatch, useParams} from "react-router-dom";
+import {Link, Outlet, useLocation, useMatch, useOutletContext, useParams} from "react-router-dom";
 import styled from "styled-components";
 import {useEffect, useState} from "react";
 import {useQuery} from "@tanstack/react-query";
@@ -197,11 +197,12 @@ function Coin() {
                                     <Link to={`/${coinId}/price`}>Price</Link>
                                 </Tab>
                             </Tabs>
-                            <Outlet/>
+                            <Outlet context={coinId}/>
                         </>
                     )}
         </Container>
     );
 }
+
 
 export default Coin;
