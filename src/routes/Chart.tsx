@@ -1,12 +1,13 @@
-import { useOutletContext } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { fetchCoinChart } from '../api';
+import {useOutletContext} from 'react-router-dom';
+import {useQuery} from '@tanstack/react-query';
+import {fetchCoinChart} from '../api';
+import ApexChart from 'apexcharts'
 
 interface ChartProps {
     coinId: string;
 }
 
-interface IChart {
+interface IHistorical {
     time_open: number;
     time_close: number;
     open: string;
@@ -19,9 +20,19 @@ interface IChart {
 
 function Chart() {
     const coinId = useOutletContext() as ChartProps['coinId'];
-    const { isLoading, data } = useQuery<IChart>(['ohlcv', coinId], () => fetchCoinChart(coinId));
+    const {isLoading, data} = useQuery<IHistorical>(['ohlcv', coinId], () => fetchCoinChart(coinId));
     console.log(coinId);
-    return <h1>Chart {coinId} </h1>;
+    return (
+        <>
+            <div>
+                {isLoading ? (
+                    "Loading chart..."
+                ) : (
+                    <p>chart</p>
+                )}
+            </div>
+        </>
+    )
 }
 
 export default Chart;

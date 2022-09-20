@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {useEffect, useState} from "react";
 import {useQuery} from "@tanstack/react-query";
 import {fetchCoinInfo, fetchCoinTickers} from "../api";
+import {Helmet} from 'react-helmet';
 
 const Container = styled.div`
   max-width: 480px;
@@ -11,16 +12,28 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
-  height: 10vh;
-  display: flex;
-  justify-content: center;
-  align-content: center;
+  text-align: center;
 `;
 
 const Title = styled.h1`
   font-size: 48px;
   color: ${props => props.theme.accentColor};
 `;
+
+const BackPageBtn = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px auto;
+  a {
+    display: block;
+    border: 1px solid ${props => props.theme.textColor};
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+  }
+`
 
 const Overview = styled.div`
   display: flex;
@@ -61,11 +74,11 @@ const Tab = styled.span<{ isActive: boolean }>`
   font-size: 12px;
   font-weight: 400;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 7px 0px;
   border-radius: 10px;
   color: ${props => props.isActive ? props.theme.accentColor : props.theme.textColor};
   a {
     display: block;
+    padding: 7px 0px;
   }
 `;
 
@@ -136,7 +149,7 @@ function Coin() {
     const priceMatch = useMatch("/:coinId/price");
     const chartMatch = useMatch("/:coinId/chart");
     const {isLoading: infoLoading, data: infoData} = useQuery<InfoData>(["info" ,coinId], () => fetchCoinInfo(coinId!))
-    const {isLoading: tickersLoading, data: tickersData} = useQuery<PriceData>(["tickers" ,coinId], () => fetchCoinTickers(coinId!))
+    const {isLoading: tickersLoading, data: tickersData} = useQuery<PriceData>(["tickers" ,coinId], () => fetchCoinTickers(coinId!), {refetchInterval: 5000})
     const loading = infoLoading && tickersLoading;
     // const [loading, setLoading] = useState(true);
     // const [info, setInfo] = useState<InfoData>();
@@ -152,8 +165,18 @@ function Coin() {
     // }, [coinId]);
     return (
         <Container>
+            <Helmet>
+                <title>
+                    {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+                </title>
+            </Helmet>
             <Header>
                 <Title>{state?.name ? state.name : loading ? "Loading..." : infoData?.name}</Title>
+                <BackPageBtn>
+                    <Link to={'/'}>
+                        {!loading && <>&larr;</> }
+                    </Link>
+                </BackPageBtn>
             </Header>
                 {loading ?
                     (
@@ -173,8 +196,8 @@ function Coin() {
                                     <span>${infoData?.symbol}</span>
                                 </OverviewItem>
                                 <OverviewItem>
-                                    <span>Open Source:</span>
-                                    <span>{infoData?.open_source ? "Yes" : "No"}</span>
+                                    <span>Price:</span>
+                                    <span>${tickersData?.quotes.USD.price.toFixed(3)}</span>
                                 </OverviewItem>
                             </Overview>
                             <Description>{infoData?.description}</Description>
