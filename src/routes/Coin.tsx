@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation, useMatch, useParams } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCoinInfo, fetchCoinTickers } from '../api';
@@ -35,13 +35,6 @@ const BackPageBtn = styled.div`
     }
 `;
 
-const Overview = styled.div`
-    display: flex;
-    justify-content: space-between;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px 20px;
-    border-radius: 10px;
-`;
 const OverviewItem = styled.div`
     display: flex;
     flex-direction: column;
@@ -53,6 +46,23 @@ const OverviewItem = styled.div`
         margin-bottom: 5px;
     }
 `;
+
+const Overview = styled.div<{col : string}>`
+    display: flex;
+    background-color: ${props => props.theme.displayBgColor};
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 2px 5px 2px rgba(0, 0, 0, 0.1);
+  ${OverviewItem} {
+    width: ${props => 
+        props.col === "3" 
+                ? "33.33%" 
+                : props.col === "2"
+                && "50%"
+    
+  }
+`;
+
 const Description = styled.p`
     margin: 20px 0px;
 `;
@@ -64,8 +74,8 @@ const Loader = styled.div`
 const Tabs = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    margin: 25px 0px;
-    gap: 10px;
+    margin: 20px 0px;
+    gap: 20px;
 `;
 
 const Tab = styled.span<{ isActive: boolean }>`
@@ -73,8 +83,9 @@ const Tab = styled.span<{ isActive: boolean }>`
     text-transform: uppercase;
     font-size: 12px;
     font-weight: 400;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: ${props => props.theme.displayBgColor};
     border-radius: 10px;
+    box-shadow: 2px 5px 2px rgba(0, 0, 0, 0.1);
     color: ${(props) => (props.isActive ? props.theme.accentColor : props.theme.textColor)};
     a {
         display: block;
@@ -178,7 +189,7 @@ function Coin() {
                 <Loader>Loading...</Loader>
             ) : (
                 <>
-                    <Overview>
+                    <Overview col="3">
                         <OverviewItem>
                             <span>Rank:</span>
                             <span>{infoData?.rank}</span>
@@ -193,7 +204,7 @@ function Coin() {
                         </OverviewItem>
                     </Overview>
                     <Description>{infoData?.description}</Description>
-                    <Overview>
+                    <Overview col="2">
                         <OverviewItem>
                             <span>Total Suply:</span>
                             <span>{tickersData?.total_supply}</span>

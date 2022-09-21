@@ -1,7 +1,7 @@
 import {createGlobalStyle} from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Noto+Sans+KR:wght@300;400;500&display=swap');
 
   html, body, div, ul, ol, dl, li, dt, dd, p, h1, h2, h3, h4, h5, h6, table, th, td, caption, address, article, aside,
   canvas, details, figure, figcaption, footer, header, menu, nav, section,
@@ -12,7 +12,7 @@ export const GlobalStyle = createGlobalStyle`
     list-style: none;
     font-size: 100%;
     font-weight: inherit;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Noto Sans KR', sans-serif;
     line-height: inherit;
     word-break: inherit;
     word-wrap: inherit;
@@ -133,5 +133,9 @@ export const GlobalStyle = createGlobalStyle`
   button::-moz-focus-inner {
     border: 0px;
     padding: 0px;
+  }
+  
+  .lang_en {
+    font-family: 'Inter', sans-serif;
   }
 `;
