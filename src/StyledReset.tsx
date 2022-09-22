@@ -1,4 +1,4 @@
-import {createGlobalStyle} from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Noto+Sans+KR:wght@300;400;500&display=swap');
@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     -o-box-sizing: border-box;
-    color: inherit;
+    color: #000;
   }
 
   :before, :after {
@@ -41,8 +41,8 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     -webkit-text-size-adjust: none;
     text-size-adjust: none;
-    background-color: ${props => props.theme.bgColor};
-    color: ${props => props.theme.textColor};
+    background-color: ${(props) => props.theme.bgColor};
+    color: ${(props) => props.theme.textColor};
   }
 
   [hidden], hr {
