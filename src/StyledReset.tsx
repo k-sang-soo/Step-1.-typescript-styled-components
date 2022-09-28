@@ -20,7 +20,6 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     -o-box-sizing: border-box;
-    color: #000;
   }
 
   :before, :after {

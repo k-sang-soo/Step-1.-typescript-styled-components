@@ -3,6 +3,13 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchCoinChart } from '../api';
 import ApexChart from 'react-apexcharts';
 import { type } from 'os';
+import styled from 'styled-components';
+
+const ChartWrap = styled.div`
+    & > div:nth-child(2) {
+        color: ${(props) => props.theme.textBlackColor};
+    }
+`;
 
 interface ChartProps {
     coinId: string;
@@ -21,7 +28,7 @@ interface IHistorical {
 
 function Chart() {
     const { coinId } = useOutletContext<ChartProps>();
-    const { isLoading, data: chartData } = useQuery<IHistorical[]>(['ohlcv', coinId], () => fetchCoinChart(coinId!));
+    const { isLoading, data: chartData } = useQuery<IHistorical[]>(['ohlcv', coinId], () => fetchCoinChart(coinId!), { refetchInterval: 5000 });
 
     let validData = chartData ?? [];
     if ('error' in validData) {
@@ -30,104 +37,115 @@ function Chart() {
 
     return (
         <>
-            <div>
-                {isLoading ? (
-                    'Loading chart...'
-                ) : (
-                    <>
-                        <ApexChart
-                            type="line"
-                            series={[
-                                {
-                                    name: 'Price',
-                                    data: validData?.map((price) => parseFloat(price.close)),
+            {isLoading ? (
+                'Loading chart...'
+            ) : (
+                <ChartWrap>
+                    <ApexChart
+                        type="line"
+                        series={[
+                            {
+                                name: 'Price',
+                                data: validData?.map((price) => parseFloat(price.close)),
+                            },
+                        ]}
+                        options={{
+                            theme: {
+                                mode: 'dark',
+                            },
+                            chart: {
+                                width: 500,
+                                height: 500,
+                                zoom: {
+                                    enabled: false,
                                 },
-                            ]}
-                            options={{
-                                theme: {
-                                    mode: 'dark',
-                                },
-                                chart: {
-                                    width: 500,
-                                    height: 500,
-                                    zoom: {
-                                        enabled: false,
-                                    },
-                                    toolbar: {
-                                        show: false,
-                                    },
-                                    background: 'transparent',
-                                },
-                                grid: {
+                                toolbar: {
                                     show: false,
                                 },
-                                stroke: {
-                                    curve: 'smooth',
-                                },
-                                yaxis: {
-                                    show: false,
-                                },
-                                xaxis: {
-                                    axisBorder: { show: false },
-                                    axisTicks: { show: false },
-                                    labels: { show: false },
-                                    type: 'datetime',
-                                    categories: validData.map((price) => price.time_close * 1000),
-                                    tooltip: {
-                                        enabled: false,
-                                    },
-                                },
+                                background: 'transparent',
+                            },
+                            grid: {
+                                show: false,
+                            },
+                            stroke: {
+                                curve: 'smooth',
+                            },
+                            yaxis: {
+                                show: false,
+                            },
+                            xaxis: {
+                                axisBorder: { show: false },
+                                axisTicks: { show: false },
+                                labels: { show: false },
+                                type: 'datetime',
+                                categories: validData.map((price) => price.time_close * 1000),
                                 tooltip: {
-                                    y: {
-                                        formatter: (value) => `$${value.toFixed(2)}`,
-                                    },
+                                    enabled: false,
                                 },
-                            }}
-                        />
+                            },
+                            tooltip: {
+                                y: {
+                                    formatter: (value) => `$${value.toFixed(2)}`,
+                                },
+                            },
+                        }}
+                    />
 
-                        <ApexChart
-                            type="candlestick"
-                            series={[
-                                {
-                                    name: 'Price',
-                                    data: validData?.map((price) => ({
-                                        x: price.time_close * 1000,
-                                        y: [price.open, price.high, price.low, price.close],
-                                    })),
+                    <ApexChart
+                        type="candlestick"
+                        series={[
+                            {
+                                name: 'Price',
+                                data: validData?.map((price) => ({
+                                    x: price.time_close * 1000,
+                                    y: [price.open, price.high, price.low, price.close],
+                                })),
+                            },
+                        ]}
+                        options={{
+                            chart: {
+                                height: 500,
+                                zoom: {
+                                    enabled: false,
                                 },
-                            ]}
-                            options={{
-                                chart: {
-                                    height: 500,
-                                    zoom: {
-                                        enabled: false,
-                                    },
-                                    toolbar: {
-                                        show: false,
-                                    },
-                                    background: 'transparent',
-                                },
-                                grid: {
+                                toolbar: {
                                     show: false,
                                 },
-                                yaxis: {
+                                background: 'transparent',
+                            },
+                            plotOptions: {
+                                candlestick: {
+                                    colors: {
+                                        upward: '#E71915',
+                                        downward: '#1C6AD7',
+                                    },
+                                },
+                            },
+                            grid: {
+                                show: false,
+                            },
+                            yaxis: {
+                                show: false,
+                            },
+                            xaxis: {
+                                axisBorder: { show: false },
+                                axisTicks: { show: false },
+                                tooltip: {
+                                    enabled: false,
+                                },
+                                labels: {
                                     show: false,
                                 },
-                                xaxis: {
-                                    axisBorder: { show: false },
-                                    axisTicks: { show: false },
-                                    tooltip: {
-                                        enabled: false,
-                                    },
-                                    labels: {
-                                        show: false,
-                                    },
+                            },
+                            dataLabels: {
+                                style: {
+                                    colors: ['#fff'],
                                 },
-                            }}
-                        />
-                    </>
-                )}
-            </div>
+                            },
+                        }}
+                    />
+                </ChartWrap>
+            )}
         </>
     );
 }
