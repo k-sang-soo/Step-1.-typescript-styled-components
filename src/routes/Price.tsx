@@ -23,10 +23,13 @@ const ListWrap = styled.div`
 
     ${ListArea}:nth-child(1) {
         width: 100%;
+        text-align: center;
     }
 `;
 
-const ListTtl = styled.p``;
+const ListTtl = styled.p`
+    font-weight: 700;
+`;
 
 const ListMaximum = styled.p`
     margin-top: 4px;

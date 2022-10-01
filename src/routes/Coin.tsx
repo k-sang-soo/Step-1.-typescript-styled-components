@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation, useMatch, useParams } from 'react-router-dom';
-import styled, {css} from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCoinInfo, fetchCoinTickers } from '../api';
@@ -47,20 +47,14 @@ const OverviewItem = styled.div`
     }
 `;
 
-const Overview = styled.div<{col : string}>`
+const Overview = styled.div<{ col: string }>`
     display: flex;
-    background-color: ${props => props.theme.displayBgColor};
+    background-color: ${(props) => props.theme.displayBgColor};
     padding: 10px 20px;
     border-radius: 10px;
-    box-shadow: 2px 5px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.1);
   ${OverviewItem} {
-    width: ${props => 
-        props.col === "3" 
-                ? "33.33%" 
-                : props.col === "2"
-                && "50%"
-    
-  }
+    width: ${(props) => (props.col === '3' ? '33.33%' : props.col === '2' && '50%')}
 `;
 
 const Description = styled.p`
@@ -83,7 +77,7 @@ const Tab = styled.span<{ isActive: boolean }>`
     text-transform: uppercase;
     font-size: 12px;
     font-weight: 400;
-    background-color: ${props => props.theme.displayBgColor};
+    background-color: ${(props) => props.theme.displayBgColor};
     border-radius: 10px;
     box-shadow: 2px 5px 2px rgba(0, 0, 0, 0.1);
     color: ${(props) => (props.isActive ? props.theme.accentColor : props.theme.textColor)};
