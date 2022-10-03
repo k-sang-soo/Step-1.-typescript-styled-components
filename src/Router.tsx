@@ -4,13 +4,9 @@ import Coin from './routes/Coin';
 import Chart from './routes/Chart';
 import Price from './routes/Price';
 
-interface IRouterProps {
-    // 어떤 argument도 받지 않고, void를 return 하겠다.
-    // void는 아무것도 없다는 뜻
-    toggleDark: () => void;
-}
+interface IRouterProps {}
 
-function Router({ toggleDark }: IRouterProps) {
+function Router({}: IRouterProps) {
     return (
         <BrowserRouter>
             <Routes>
@@ -18,7 +14,7 @@ function Router({ toggleDark }: IRouterProps) {
                     <Route path="chart" element={<Chart />} />
                     <Route path="price" element={<Price />} />
                 </Route>
-                <Route path="/" element={<Coins toggleDark={toggleDark} />} />
+                <Route path="/" element={<Coins />} />
             </Routes>
         </BrowserRouter>
     );
