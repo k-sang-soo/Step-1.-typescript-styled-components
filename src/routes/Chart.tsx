@@ -6,9 +6,9 @@ import { type } from 'os';
 import styled from 'styled-components';
 
 const ChartWrap = styled.div`
-    & > div:nth-child(2) {
+    /* & > div:nth-child(2) {
         color: ${(props) => props.theme.textBlackColor};
-    }
+    } */
 `;
 
 interface ChartProps {
@@ -103,6 +103,9 @@ function Chart() {
                             },
                         ]}
                         options={{
+                            theme: {
+                                mode: 'dark',
+                            },
                             chart: {
                                 height: 500,
                                 zoom: {
