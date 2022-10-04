@@ -45,3 +45,4 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 "# Step-1.-typescript-styled-components" 
+"# k-sang-soo-Step-2.-typescript-todo-list" 
