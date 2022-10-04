@@ -10,7 +10,7 @@ const Container = styled.div<CircleProps>`
   width: 200px;
   height: 200px;
   background-color: ${props => props.bgColor};
-  border: 1px solid ${props => props.borderColor};
+  border: 2px solid ${props => props.borderColor};
 `;
 
 
